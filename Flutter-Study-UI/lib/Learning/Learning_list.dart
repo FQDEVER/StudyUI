@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone/Home/Instagram_home.dart';
 import 'package:flutter_insta_clone/Learning/Child_widget_pages/Based_component.dart';
+import 'package:flutter_insta_clone/Learning/Child_widget_pages/Container_component.dart';
 import 'package:flutter_insta_clone/Learning/Child_widget_pages/Layout_Component.dart';
+import 'package:flutter_insta_clone/Learning/Child_widget_pages/Scroll_Component.dart';
 
 
 class LeariningListPage extends StatelessWidget {
@@ -31,11 +33,15 @@ class LeariningListWidgetPage extends StatefulWidget {
 class _LeariningListWidgetPageState extends State<LeariningListWidgetPage> {
   List<String> datas = [
     "基础组件",
-    "布局类组件"
+    "布局类组件",
+    "容器组件",
+    "Scroll组件"
   ];
   List<Widget> pushVcs = [
     BasedComponentPage(),
     LayoutComponentPage(),
+    ContainerComponentContentPage(),
+    ScrollComponentContentPage(),
   ];
 
   @override

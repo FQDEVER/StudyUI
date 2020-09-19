@@ -115,11 +115,13 @@ class _LayoutComponentWidgetPageState extends State<LayoutComponentWidgetPage> {
           ),
           Text("相对定位Align-Alignment"),
           Container(
-            width: 200,
-            height: 200,
+//            width: 200,
+//            height: 200,
             color: Colors.red,
             child: Align(
               alignment: Alignment(2, 0.0),
+              widthFactor: 2, //外层的宽高限制以后.则设置该值无效
+              heightFactor: 2,
               child: FlutterLogo(
                 size: 60,
               ),
@@ -161,10 +163,12 @@ Widget getRowColumnWidgets() {
     ),
     padding: EdgeInsets.all(10.0),
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.start,
+      verticalDirection: VerticalDirection.down,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          textDirection: TextDirection.rtl,
           children: [
             Container(
               color: Colors.grey,
@@ -329,6 +333,9 @@ Widget getWrapFlowWidgets() {
           spacing: 10,
           runSpacing: 20,
           direction: Axis.horizontal,
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          runAlignment: WrapAlignment.end,
           children: [
             Text("data"),
             Text("data"),
@@ -398,6 +405,7 @@ Widget getStackPositionWidgets() {
             color: Colors.white,
             child: Stack(
               alignment: Alignment.topLeft,
+              fit: StackFit.loose,
               children: [
                 Container(
                   color: Colors.orangeAccent,
