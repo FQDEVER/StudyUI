@@ -57,42 +57,48 @@ class _ScrollComponentPageState extends State<ScrollComponentPage> {
           "1.SingleChildScrollView",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-//        getRowColumnWidgets(),
         getSingleChildScrollView(),
         Text(
           "2.ListView",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-//        getRowColumnWidgets(),
         getListView(),
         Text(
           "3.ListViewBuilder",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-//        getRowColumnWidgets(),
         getListViewBuilder(),
-
         Text(
           "4.ListViewSeparated",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-//        getRowColumnWidgets(),
         getListViewSeparated(),
-
         Text(
           "5.无限加载更多",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-//        getRowColumnWidgets(),
         getListViewReloadMore(),
         Text(
           "6.GridView",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-//        getRowColumnWidgets(),
         getGridView(),
+        Text(
+          "7.CustomScrollView",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        getCustomScrollView(),
+        Text(
+          "8.滚动监听及控制",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        getScrollControllerDemo(),
       ],
     );
+  }
+
+  Widget getScrollControllerDemo(){
+
   }
 
   Widget getSingleChildScrollView() {
@@ -217,11 +223,130 @@ class _ScrollComponentPageState extends State<ScrollComponentPage> {
     );
   }
 
-  Widget getGridView(){
-    return Container();
+  Widget getGridView() {
+    return Container(
+      height: 200,
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.green,
+        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+        boxShadow: [
+          BoxShadow(color: Colors.red, offset: Offset(2.0, 2.0)),
+          BoxShadow(color: Colors.orange, offset: Offset(-2.0, -2.0)),
+        ],
+      ),
+      child:
+//      GridView.count(crossAxisCount: 3,scrollDirection: Axis.vertical,children: [
+//        Text("text"),
+//        Text("text"),
+//        Text("text"),
+//        Text("text"),
+//        Text("text"),
+//        Text("text"),
+//        Text("text"),
+//        Text("text"),
+//      ],),
+//    GridView.extent(maxCrossAxisExtent: 160.0,children: [
+//              Text("text"),
+//        Text("text"),
+//        Text("text"),
+//        Text("text"),
+//        Text("text"),
+//        Text("text"),
+//        Text("text"),
+//        Text("text"),
+//    ],),
+          GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, childAspectRatio: 0.5),
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return Text("data" + "$index");
+              }),
+    );
+  }
+
+  Widget getCustomScrollView() {
+    return Container(
+      height: 300,
+      padding: EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+          color: Colors.amber,
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          boxShadow: [
+            BoxShadow(color: Colors.blue, offset: Offset(2.0, 2.0)),
+          ]),
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 120,
+            flexibleSpace: FlexibleSpaceBar(
+              title: const Text("Demo"),
+              background: Image.asset(
+                "./assets/images/insta_logo.png",
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.all(8.0),
+            sliver: SliverFixedExtentList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext build, int index) {
+                    return GridView.builder(
+                      scrollDirection: Axis.horizontal,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1, childAspectRatio: 0.2),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Text("中间Gride$index");
+                      },
+                      itemCount: 20,
+                    );
+                  },
+                  childCount: 1,
+                ),
+                itemExtent: 20),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.all(8.0),
+            sliver: new SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10.0,
+                  childAspectRatio: 2.0),
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return new Container(
+                    alignment: Alignment.center,
+                    color: Colors.cyan,
+                    child: Text("grid item $index"),
+                  );
+                },
+                childCount: 20,
+              ),
+            ),
+          ),
+          SliverFixedExtentList(
+              itemExtent: 50.0,
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return Container(
+                    alignment: Alignment.center,
+                    color: Colors.lightBlue,
+                    child: Text("list item $index"),
+                  );
+                },
+                childCount: 50,
+              ))
+        ],
+      ),
+    );
   }
 
   static const String loadingTag = "##loading##";
+
   Widget getListViewReloadMore() {
     void _reloadMoreData() {
       Future.delayed(Duration(seconds: 2)).then((value) {
